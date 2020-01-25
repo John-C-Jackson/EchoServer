@@ -9,6 +9,3 @@
   * toClient – reference to ouput stream sending characters back to the client
   * charFromClient – holds the character most recently read from the client
 * add comments
-
-#### Use telnet as client
-* usage -> telnet localhost [port number]
