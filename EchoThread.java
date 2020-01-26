@@ -1,7 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-public class EchoThread implements Runnable {
+public class EchoThread {
     public static void main(String[] args) throws IOException {
 
         if (args.length != 2) {
@@ -39,8 +39,4 @@ public class EchoThread implements Runnable {
         }
     }
 
-    public synchronized void run()
-    {
-
-    }
 }
