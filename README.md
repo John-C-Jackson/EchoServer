@@ -1,5 +1,6 @@
 # CS465 Project 0 – EchoServer
 ### TODO: 
+* The class called "EchoThread" is really a client. Oops.
 * use single-character mechanism instead of Buffered Reader
 * <del>server able to handle multiple client threads</del> Done
 * state machine in server 
