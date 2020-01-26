@@ -1,34 +1,35 @@
-import java.net.*;
 import java.io.*;
+import java.net.*;
 
-public class EchoServer
-{
-    public static void main( String args[]) throws IOException
-    {
-        if (args.length != 1) {
-            System.err.println("Usage: java EchoServer <port number>");
-            System.exit(1);
-        }
+public class EchoServer implements Runnable {
+   Socket csocket;
+   EchoServer(Socket csocket) {
+      this.csocket = csocket;
+   }
+   public static void main(String args[]) throws Exception {
+      ServerSocket ssock = new ServerSocket(Integer.parseInt(args[0]));
+      System.out.println("Listening");
 
-        int portNumber = Integer.parseInt(args[0]);
-
-		try {
-			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
-			Socket clientSocket = serverSocket.accept();
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-			BufferedReader fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			String inputLine;
-			while( ( inputLine = fromClient.readLine() ) != null )
-			{
-				out.println(inputLine);
-			}
-		} catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port "
-                + portNumber + " or listening for a connection");
-            System.out.println(e.getMessage());
-		}
-
-    	System.out.println("Connected");
-    }
-
+      while (true) {
+         Socket sock = ssock.accept();
+         System.out.println("Connected");
+         new Thread(new EchoServer(sock)).start();
+      }
+   }
+   public void run() {
+      try {
+         PrintStream pstream = new PrintStream(csocket.getOutputStream());
+         BufferedReader fromClient = new BufferedReader(new InputStreamReader(csocket.getInputStream()));
+         String inputLine;
+         while( ( inputLine = fromClient.readLine() ) != null )
+         {
+           inputLine = inputLine.replaceAll("[^a-zA-Z]", "");
+           pstream.println(inputLine);
+         }
+         pstream.close();
+         csocket.close();
+      } catch (IOException e) {
+         System.out.println(e);
+      }
+   }
 }
