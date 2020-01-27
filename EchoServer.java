@@ -138,8 +138,8 @@ class EchoThread implements Runnable
 					// server client connection display
 					System.out.println("Client "+count+": "+ charFromClient);
 
-					// send echo back to client.
-                	toClient.writeBytes("Echo: "+ charFromClient + "\n");
+			 		// send echo back to client.
+                	                toClient.writeBytes("Echo: "+ charFromClient + "\n");
 
 					// update state machine to check for 'quit' sequence.
 					state = updateState(state, charFromClient);
