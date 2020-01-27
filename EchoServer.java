@@ -9,7 +9,7 @@ public class EchoServer
        // keep tracks of threads
         int count=0;
 
-        // creates a new server socket
+        // creates a new server socket in port 23
         try (ServerSocket serverSocket = new ServerSocket(23))
         {
             System.out.println("Listening...");
