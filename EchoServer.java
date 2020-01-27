@@ -6,16 +6,20 @@ public class EchoServer
 {
     public static void main(String[] args) throws IOException
     {
+       // keep tracks of threads
         int count=0;
 
-
+        // creates a new server socket
         try (ServerSocket serverSocket = new ServerSocket(23))
         {
             System.out.println("Listening...");
 
+            // while the server socket is active
             while(true)
             {
+                // increment counter to keep track of number of threads created
                 count++;
+                // crreates a client socket that the server socket has connected to
                 Socket cSocket = serverSocket.accept();
                 // creates a run of the program with clientSocket (cSocket)
                 Runnable runHolder = new EchoThread(cSocket, count);
@@ -118,7 +122,7 @@ class EchoThread implements Runnable
             toClient = new DataOutputStream(os);
 
 			//send connection message to client
-            toClient.writeBytes("Connected");
+            toClient.writeBytes("Connected\n");
 
 			// loop while a byte is read from the client,
 			// store byte in the first element of inData array.
