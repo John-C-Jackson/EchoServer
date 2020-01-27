@@ -118,7 +118,7 @@ class EchoThread implements Runnable
             toClient = new DataOutputStream(os);
 
 			//send connection message to client
-            toClient.writeBytes("Connected");
+            toClient.writeBytes("Connected\n");
 
 			// loop while a byte is read from the client,
 			// store byte in the first element of inData array.
