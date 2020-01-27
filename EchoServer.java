@@ -17,10 +17,14 @@ public class EchoServer
             {
                 count++;
                 Socket cSocket = serverSocket.accept();
+                // creates a run of the program with clientSocket (cSocket)
                 Runnable runHolder = new EchoThread(cSocket, count);
+                // creates a new thread with the runHolder
                 Thread threadHolder = new Thread(runHolder);
+                // starts the thread
                 threadHolder.start();
 
+                // gives and update when a new thread is performed
                 System.out.println("Thread Spawned connected: "+count);
                         }
         }
@@ -47,7 +51,9 @@ class EchoThread implements Runnable
     {
         try
         {
+          // assigns io to the input of client
           io = clientSocket.getInputStream();
+          // assigns os to the output to server 
           os = clientSocket.getOutputStream();
         }
         catch (IOException e) {System.err.println(e);}
