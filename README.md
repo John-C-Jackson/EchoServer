@@ -12,4 +12,4 @@
 * add comments
   * <del>EchoThread class</del>
   * EchoServer class
-* record video
+* <del>record video</del> Done.
