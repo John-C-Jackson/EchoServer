@@ -1,34 +1,69 @@
-import java.net.*;
 import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class EchoServer
 {
-    public static void main( String args[]) throws IOException
+    public static void main(String[] args) throws IOException
     {
-        if (args.length != 1) {
-            System.err.println("Usage: java EchoServer <port number>");
-            System.exit(1);
+        int count=0;
+
+
+        try (ServerSocket serverSocket = new ServerSocket(23))
+        {
+            System.out.println("Listening...");
+
+            while(true)
+            {
+                count++;
+                Socket cSocket = serverSocket.accept();
+                Runnable runHolder = new EchoThread(cSocket, count);
+                Thread threadHolder = new Thread(runHolder);
+                threadHolder.start();
+
+                System.out.println("Thread Spawned connected: "+count);
+                        }
         }
+    }
+}
 
-        int portNumber = Integer.parseInt(args[0]);
 
-		try {
-			ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
-			Socket clientSocket = serverSocket.accept();
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-			BufferedReader fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			String inputLine;
-			while( ( inputLine = fromClient.readLine() ) != null )
-			{
-				out.println(inputLine);
-			}
-		} catch (IOException e) {
-            System.out.println("Exception caught when trying to listen on port "
-                + portNumber + " or listening for a connection");
-            System.out.println(e.getMessage());
-		}
+class EchoThread implements Runnable
+{
+    private Socket clientSocket;
+    private int count;
+    InputStream io;
+    OutputStream os;
+    private PrintWriter out;
 
-    	System.out.println("Connected");
+    EchoThread(Socket clientSocket, int count)
+    {
+        this.clientSocket = clientSocket;
+        this.count = count;
     }
 
+    @Override
+    public void run()
+    {
+        try
+        {
+          io = clientSocket.getInputStream();
+          os = clientSocket.getOutputStream();
+        }
+        catch (IOException e) {System.err.println(e);}
+        try (Scanner fromClient = new Scanner(io))
+        {
+            out = new PrintWriter(os, true);
+            out.println("Connected");
+            while(fromClient.hasNextLine())
+            {
+                String toClient = fromClient.nextLine();
+                System.out.println("Client "+count+": "+ toClient);
+                out.println("Echo: "+toClient);
+            }
+        }
+        finally {
+            System.out.println("Client" + count + "left.");
+        }
+    }
 }
