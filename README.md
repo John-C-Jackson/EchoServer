@@ -9,7 +9,7 @@
   * <del>fromClient – reference to input stream of characters from the client</del>
   * <del>toClient – reference to ouput stream sending characters back to the client</del>
   * <del>charFromClient – holds the character most recently read from the client</del>
-* add comments
+* <del>add comments</del> Done
   * <del>EchoThread class</del>
-  * EchoServer class
-* <del>record video</del> Done.
+ * <del>EchoServer class</del>
+* <del>record video</del> Done
